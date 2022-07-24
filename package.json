@@ -1,0 +1,11 @@
+{
+  "name": "@xpcn/formidable-parse-files",
+  "version": "1.0.0",
+  "description": "A group of function to simplify parse file process in my project.",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "xpcn2015",
+  "license": "ISC"
+}
