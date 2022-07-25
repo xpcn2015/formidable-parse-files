@@ -1,6 +1,6 @@
-import { Request } from "express";
 import formidable from "formidable";
 import { unlink } from "fs";
+import { IncomingMessage } from "http";
 
 let tempFiles: string[] = []
 const form = new formidable.IncomingForm({ uploadDir: "./temp", keepExtensions: true, multiples: true });
@@ -11,10 +11,10 @@ const form = new formidable.IncomingForm({ uploadDir: "./temp", keepExtensions: 
  * if incoming form has file uploaded, please call function cleanupFormFile()
  * 
  * after processed file to cleanup temporary upload file
- * @param {Request} req request from express
+ * @param {IncomingMessage} req request from http
  * @returns Promise of Formidable fields and files, or undefined
  */
-export function parseFormFiles(req: Request) {
+export function parseFormFiles(req: IncomingMessage) {
     return new Promise<{ fields: formidable.Fields, files: formidable.Files }>((resolve, rejects) => {
         form.parse(req, async (err, fields, files) => {
             if (err) rejects(err)
@@ -30,12 +30,12 @@ export function parseFormFiles(req: Request) {
  * if incoming form has file uploaded, please call function cleanupFormFile()
  * 
  * after processed file to cleanup temporary upload file
- * @param {Request} req request from express
+ * @param {IncomingMessage} req request from http
  * @param onError function to handle error
  * @param bodyName image field name from incoming form
  * @returns Promise of Formidable fields and images, or undefined
  */
-export function parseFormImage(req: Request, onError?: (message: string) => void, bodyName = "images") {
+export function parseFormImage(req: IncomingMessage, onError?: (message: string) => void, bodyName = "images") {
     return new Promise<{ fields: formidable.Fields, files?: fileInfo[] }>((resolve, rejects) => {
         form.parse(req, async (err, fields, files) => {
             if (err) rejects(`Failed to begin parse image => \n${err} `)
