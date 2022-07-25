@@ -3,6 +3,9 @@
   "version": "1.0.3",
   "description": "A group of function to simplify parse file process in my express project.",
   "main": "dist/index.js",
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
     "test": "jest",
     "build": "tsc"
