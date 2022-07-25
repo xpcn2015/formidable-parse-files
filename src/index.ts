@@ -6,7 +6,11 @@ let tempFiles: string[] = []
 const form = new formidable.IncomingForm({ uploadDir: "./temp", keepExtensions: true, multiples: true });
 
 /**
+ * parse incoming form
  * 
+ * if incoming form has file uploaded, please call function cleanupFormFile()
+ * 
+ * after processed file to cleanup temporary upload file
  * @param {Request} req request from express
  * @returns Promise of Formidable fields and files, or undefined
  */
@@ -20,6 +24,17 @@ export function parseFormFiles(req: Request) {
     })
 }
 
+/**
+ * parse incoming form that have image file 
+ * 
+ * if incoming form has file uploaded, please call function cleanupFormFile()
+ * 
+ * after processed file to cleanup temporary upload file
+ * @param {Request} req request from express
+ * @param onError function to handle error
+ * @param bodyName image field name from incoming form
+ * @returns Promise of Formidable fields and images, or undefined
+ */
 export function parseFormImage(req: Request, onError?: (message: string) => void, bodyName = "images") {
     return new Promise<{ fields: formidable.Fields, files?: fileInfo[] }>((resolve, rejects) => {
         form.parse(req, async (err, fields, files) => {
@@ -31,13 +46,15 @@ export function parseFormImage(req: Request, onError?: (message: string) => void
                 allowedType: ["image/jpeg", "image/jpg", "image/png"],
                 onError
             })
-            // if (!filesInfo) rejects("failed to parse image files")
             resolve({ fields, files: filesInfo });
         });
     })
 }
 
-
+/**
+ * delete current session uploaded files
+ * @param onError 
+ */
 export function cleanupFormFile(onError?: (message: string) => void) {
     tempFiles.forEach(file => {
         unlink(file, (err) => {
