@@ -4,7 +4,8 @@
   "description": "A group of function to simplify parse file process in my express project.",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc"
   },
   "author": "xpcn2015",
   "license": "ISC",
